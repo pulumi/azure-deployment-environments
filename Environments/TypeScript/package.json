@@ -1,0 +1,12 @@
+{
+    "name": "pulumi-typescript",
+    "main": "index.ts",
+    "type": "module",
+    "devDependencies": {
+        "tsx": "^4.1.2"
+    },
+    "dependencies": {
+        "@pulumi/azure-native": "^2.0.0",
+        "@pulumi/pulumi": "^3.0.0"
+    }
+}

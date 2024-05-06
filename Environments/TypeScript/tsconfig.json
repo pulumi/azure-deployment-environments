@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+      "strict": true,
+      "outDir": "bin",
+      "target": "ESNext",
+      "module": "ESNext",
+      "moduleResolution": "node",
+      "sourceMap": true,
+      "experimentalDecorators": true,
+      "pretty": true,
+      "noFallthroughCasesInSwitch": true,
+      "noImplicitReturns": true,
+      "skipDefaultLibCheck": true,
+      "skipLibCheck": true,
+      "allowSyntheticDefaultImports": true,
+      "forceConsistentCasingInFileNames": true
+    },
+    "include": ["**/*.ts"],
+    "exclude": ["node_modules"]
+  }

@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://github.com/Azure/deployment-environments/releases/download/2022-11-11-preview/manifest.schema.json
+name: PulumiYaml
+version: 1.0.0
+summary: First Pulumi-Enabled Environment
+description: Deploys something with Pulumi
+runner: pulumi/azure-deployment-environments:0.1.0
+templatePath: Pulumi.yaml
+
+parameters:
+  - id: pulumiAccessTokenSecret
+    name: KeyVault Secret ID for Pulumi Access Token
+    description: KeyVault Secret ID that points to Pulumi Access Token.
+    type: string
+    required: false
+  - id: pulumiAccessToken
+    name: Pulumi Access Token
+    description: Pulumi Access Token for Cloud login.
+    type: string
+    required: false
+  - id: sku
+    name: SKU Name
+    description: Storage account SKU name.
+    type: string
+    required: false
+    default: Standard_LRS
