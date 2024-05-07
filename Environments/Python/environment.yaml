@@ -3,7 +3,7 @@ name: PulumiPython
 version: 1.0.0
 summary: Pulumi Python Environment
 description: Deploys a Storage Account with Pulumi in Python
-runner: registrycfca84b8.azurecr.io/ade-pulumi:v1.0.0
+runner: pulumi/azure-deployment-environments:0.1.0
 templatePath: Pulumi.yaml
 
 parameters:
