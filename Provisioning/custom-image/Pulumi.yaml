@@ -1,0 +1,3 @@
+name: ade-pulumi-custom-image
+runtime: nodejs
+description: Build and deploy a custom image of Pulumi-ADE integration

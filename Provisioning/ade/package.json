@@ -1,0 +1,13 @@
+{
+    "name": "adep",
+    "main": "index.ts",
+    "devDependencies": {
+        "@types/node": "^18"
+    },
+    "dependencies": {
+        "@pulumi/azure-native": "^2.0.0",
+        "@pulumi/docker": "^4.5.3",
+        "@pulumi/dockerbuild": "^0.0.1-alpha.1710958177",
+        "@pulumi/pulumi": "^3.0.0"
+    }
+}
