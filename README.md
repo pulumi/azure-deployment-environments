@@ -8,7 +8,7 @@ Repository structure is shown below.
 
 The Pulumi team provides a sample image to get you started, which you can see in the [Runner-Image](https://github.com/pulumi/azure-deployment-environments/tree/main/Runner-Image) folder. This image is publicly available at Pulumi's Docker Hub as [`pulumi/azure-deployment-environments`](https://hub.docker.com/repository/docker/pulumi/azure-deployment-environments), so you can use it directly from your ADE environment defitions.
 
-You can also use it as a base image or as a starting point to create your own custom image.
+You can also use it as a base image or as a starting point to create your own custom image. You can use [our Pulumi program](https://github.com/pulumi/azure-deployment-environments/tree/main/Provisioning/custom-image) or [a GitHub workflow](https://github.com/pulumi/azure-deployment-environments/blob/main/.github/workflows/build-and-push-image.yml) to push the image to your own Azure Container Registry instance.
 
 ### Environments
 
