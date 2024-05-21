@@ -1,0 +1,34 @@
+name: build-and-push-image
+
+on: workflow_dispatch
+permissions:
+      id-token: write
+      contents: read
+env:
+  registryName: ${{ vars.REGISTRY_NAME }}
+  repositoryName: ${{ vars.REPOSITORY_NAME }}
+  tag: ${{ vars.TAG }}
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 'Az CLI login'
+      uses: azure/login@v2
+      with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          
+    - name: 'Login to Specified ACR'
+      run: az acr login -n $registryName
+      
+    - uses: actions/checkout@v3
+    - name: Build the Docker Image
+      run: docker build ./Runner-Image --file Dockerfile --tag "$registryName.azurecr.io/$repositoryName:$tag"
+
+    - name: 'Push the Docker Image'
+      run: docker push "$registryName.azurecr.io/$repositoryName:$tag"

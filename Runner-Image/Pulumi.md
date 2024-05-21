@@ -10,21 +10,36 @@ ms.topic: how-to
 #customer intent: As a developer, I want to learn how to build and utilize custom images within my environment definitions for deployment environments.
 ---
 
-# Configure a container image to execute deployments with Pulumi
+# Configure ADE to execute deployments with Pulumi
 
-In this article, you learn how to build and utilize a custom image within your environment definitions for deployments in Azure Deployment Environments (ADE). You learn how to configure a custom image to provision infrastructure using the Pulumi Infrastructure-as-Code (IaC) framework.
-
-ADE supports an extensibility model that enables you to create custom images that you can use in your environment definitions. To leverage this extensibility model, you can create your own custom images, and store them in a public container registry. You can then reference these images in your environment definitions to deploy your environments.
-
-The Pulumi team provides a sample image to get you started, which you can see in the [Runner-Image](https://github.com/pulumi/azure-deployment-environments/tree/main/Runner-Image) folder. This image is publicly available at Pulumi's Docker Hub as [`pulumi/azure-deployment-environments`](https://hub.docker.com/repository/docker/pulumi/azure-deployment-environments), so you can use it directly from your ADE environment defitions.
-
-The ADE CLI is a tool that allows you to build custom images by using ADE base images. You can use the ADE CLI to customize your deployments and deletions to fit your workflow. The ADE CLI is preinstalled on the sample images. To learn more about the ADE CLI, see the [CLI Custom Runner Image reference](https://aka.ms/deployment-environments/ade-cli-reference).
+In this article, you learn how to utilize [Pulumi](https://pulumi.com) for deployments in Azure Deployment Environments (ADE). You learn how to use a standard image provided by Pulumi or how to configure a custom image to provision infrastructure using the Pulumi Infrastructure-as-Code (IaC) framework.
 
 ## Prerequisites
 
 - An Azure account with an active subscription. [Create an account for free](https://azure.microsoft.com/free/?WT.mc_id=A261C142F).
 
-## Create and build a Docker image by using Pulumi
+## Use a standard Docker image provided by Pulumi
+
+The Pulumi team provides a pre-built image to get you started, which you can see in the [Runner-Image](https://github.com/pulumi/azure-deployment-environments/tree/main/Runner-Image) folder. This image is publicly available at Pulumi's Docker Hub as [`pulumi/azure-deployment-environments`](https://hub.docker.com/repository/docker/pulumi/azure-deployment-environments), so you can use it directly from your ADE environment defitions.
+
+Here is a sample ```environment.yaml``` file that utilizes the pre-built image:
+
+```yaml
+name: SampleDefinition
+version: 1.0.0
+summary: First Pulumi-Enabled Environment
+description: Deploys a Storage Account with Pulumi
+runner: pulumi/azure-deployment-environments:0.1.0
+templatePath: Pulumi.yaml
+```
+
+You can find a few sample environment defitions in the [Environments folder](https://github.com/pulumi/azure-deployment-environments/tree/main/Environments).
+
+## Build and utilize a custom Docker image
+
+ADE supports an extensibility model that enables you to create custom images that you can use in your environment definitions. To leverage this extensibility model, you can create your own custom images, and store them in a public container registry. You can then reference these images in your environment definitions to deploy your environments.
+
+The ADE CLI is a tool that allows you to build custom images by using ADE base images. You can use the ADE CLI to customize your deployments and deletions to fit your workflow. The ADE CLI is preinstalled on the sample images. To learn more about the ADE CLI, see the [CLI Custom Runner Image reference](https://aka.ms/deployment-environments/ade-cli-reference).
 
 In this example, you learn how to build a Docker image to utilize ADE deployments and access the ADE CLI, basing your image on one of the ADE authored images.
 
@@ -162,11 +177,17 @@ For example, if you want to save your image under a repository within your regis
 docker build . -t {YOUR_REGISTRY}.azurecr.io/customImage:1.0.0
 ```
 
-## Push the Docker image to a registry
+### Push the Docker image to a registry
 
 In order to use custom images, you need to set up a publicly accessible image registry with anonymous image pull enabled. This way, Azure Deployment Environments can access your custom image to execute in our container.
 
+#### Create an Azure Container Registry and publish your image with Pulumi
+
 Azure Container Registry is an Azure offering that stores container images and similar artifacts.
+
+You can use Pulumi to create an Azure Container Registry and publish your image to it. Refer to the [Provisioning/custom-image](https://github.com/pulumi/azure-deployment-environments/tree/main/Provisioning/custom-image) example for a self-contained Pulumi project that creates all the required resources in your Azure account.
+
+#### Create an Azure Container Registry and publish your image manually via CLI
 
 To create a registry, which can be done through the Azure CLI, the Azure portal, PowerShell commands, and more, follow one of the [quickstarts](/azure/container-registry/container-registry-get-started-azure-cli).
 
@@ -185,7 +206,7 @@ When you're ready to push your image to your registry, run the following command
 docker push {YOUR_REGISTRY}.azurecr.io/{YOUR_IMAGE_LOCATION}:{YOUR_TAG}
 ```
 
-## Connect the image to your environment definition
+### Connect the image to your environment definition
 
 When authoring environment definitions to use your custom image in their deployment, edit the `runner` property on the manifest file (environment.yaml or manifest.yaml).
 
@@ -226,3 +247,4 @@ az devcenter dev environment show-logs-by-operation --environment-name {YOUR_ENV
 ## Related content
 
 - [ADE CLI Custom Runner Image reference](https://aka.ms/deployment-environments/ade-cli-reference)
+- [Pulumi's azure-deployment-environments repository](https://github.com/pulumi/azure-deployment-environments)
