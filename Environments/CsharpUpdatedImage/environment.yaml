@@ -3,7 +3,7 @@ name: PulumiCsharpUpdatedImage
 version: 1.0.0
 summary: Pulumi C# Environment
 description: Deploys a Storage Account with Pulumi in C#
-runner: pulumi/azure-deployment-environments:0.1.0
+runner: acradamasmarimageupdates.azurecr.io/deployment-environments/runners/arm:dual-7.0.0
 templatePath: Pulumi.yaml
 
 parameters:
