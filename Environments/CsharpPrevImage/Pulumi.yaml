@@ -1,9 +1,0 @@
-name: ade-pulumi-csharp
-runtime: dotnet
-description: A C# Pulumi program in ADE
-config:
-  resource-group-name:
-    type: string
-  sku:
-    type: string
-    default: Standard_LRS
