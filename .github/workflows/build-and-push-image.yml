@@ -8,6 +8,11 @@ env:
   registryName: ${{ vars.REGISTRY_NAME }}
   repositoryName: ${{ vars.REPOSITORY_NAME }}
   tag: ${{ vars.TAG }}
+  ESC_ACTION_OIDC_AUTH: true
+  ESC_ACTION_OIDC_ORGANIZATION: pulumi
+  ESC_ACTION_OIDC_REQUESTED_TOKEN_TYPE: urn:pulumi:token-type:access_token:organization
+  ESC_ACTION_ENVIRONMENT: imports/github-secrets
+  ESC_ACTION_EXPORT_ENVIRONMENT_VARIABLES: false
 
 jobs:
 
@@ -16,16 +21,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Fetch secrets from ESC
+      id: esc-secrets
+      uses: pulumi/esc-action@v1
     - name: 'Az CLI login'
       uses: azure/login@v2
       with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          
+          client-id: ${{ steps.esc-secrets.outputs.AZURE_CLIENT_ID }}
+          tenant-id: ${{ steps.esc-secrets.outputs.AZURE_TENANT_ID }}
+          subscription-id: ${{ steps.esc-secrets.outputs.AZURE_SUBSCRIPTION_ID }}
+
     - name: 'Login to Specified ACR'
       run: az acr login -n $registryName
-      
+
     - uses: actions/checkout@v3
     - name: Build the Docker Image
       run: docker build ./Runner-Image --file Dockerfile --tag "$registryName.azurecr.io/$repositoryName:$tag"
