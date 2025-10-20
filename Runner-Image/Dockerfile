@@ -11,6 +11,11 @@ ARG IMAGE_VERSION
 # Metadata as defined at http://label-schema.org
 ARG BUILD_DATE
 
+# install python (required by newer core images)
+RUN apk add python3 || \
+    (echo "Failed to install python3 with apk, trying with tdnf" && \
+    tdnf install -y python3)
+
 # install pulumi
 RUN apk add curl || \
     (echo "Failed to install curl with apk, trying with tdnf" && \
