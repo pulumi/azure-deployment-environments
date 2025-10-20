@@ -1,12 +1,12 @@
 # Copyright 2024, Pulumi Corporation.
 
 ARG BASE_IMAGE=mcr.microsoft.com/deployment-environments/runners/core
-ARG IMAGE_VERSION=latest
+ARG BASE_IMAGE_TAG=4.3.0-preview
 
-FROM ${BASE_IMAGE}:${IMAGE_VERSION}
+FROM ${BASE_IMAGE}:${BASE_IMAGE_TAG}
 WORKDIR /
 
-ARG IMAGE_VERSION
+ARG BASE_IMAGE_TAG
 
 # Metadata as defined at http://label-schema.org
 ARG BUILD_DATE
