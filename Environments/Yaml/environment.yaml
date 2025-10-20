@@ -3,7 +3,7 @@ name: PulumiYaml
 version: 1.0.0
 summary: First Pulumi-Enabled Environment
 description: Deploys something with Pulumi
-runner: pulumi/azure-deployment-environments:0.1.0
+runner: pulumi/azure-deployment-environments:0.2.0
 templatePath: Pulumi.yaml
 
 parameters:
