@@ -11,7 +11,11 @@ ARG BASE_IMAGE_TAG
 # Metadata as defined at http://label-schema.org
 ARG BUILD_DATE
 
-# install pulumi (base image already contains python3, curl, tar, gzip)
+# install pulumi
+RUN apk add curl || \
+    (echo "Failed to install curl with apk, trying with tdnf" && \
+    tdnf install -y tar gzip && \
+    tdnf install -y curl)
 RUN curl -fsSL https://get.pulumi.com | sh
 ENV PATH="${PATH}:/root/.pulumi/bin"
 RUN pulumi plugin install resource azure-native
