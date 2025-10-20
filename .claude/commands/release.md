@@ -11,13 +11,17 @@ You are tasked with creating a new release of the Pulumi Azure Deployment Enviro
 3. Increment the minor version (e.g., v0.1.0 → v0.2.0) unless the user specifies otherwise
 4. Confirm the new version number with the user using AskUserQuestion
 
-## Step 2: Update Runner Image Tags
+## Step 2: Prepare Files for Release
 
-1. Find all `environment.yaml` files in the `Environments/` directory using Glob
-2. For each file, update the `runner:` field to use the new version tag
+1. Update the base image tag in `Runner-Image/Dockerfile`:
+   - Find the `ARG BASE_IMAGE_TAG=` line
+   - Update to the latest available version from mcr.microsoft.com/deployment-environments/runners/core
+   - Check https://mcr.microsoft.com/v2/deployment-environments/runners/core/tags/list or use Docker Hub to find the latest version (not "latest")
+2. Find all `environment.yaml` files in the `Environments/` directory using Glob
+3. For each file, update the `runner:` field to use the new version tag
    - Current format is typically: `pulumi/azure-deployment-environments:latest` or `pulumi/azure-deployment-environments:v0.1.0`
    - Update to: `pulumi/azure-deployment-environments:<new-version>`
-3. Use the Edit tool to update each file
+4. Use the Edit tool to update each file
 
 ## Step 3: Create Release Preparation PR
 

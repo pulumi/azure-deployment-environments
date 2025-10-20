@@ -1,26 +1,17 @@
 # Copyright 2024, Pulumi Corporation.
 
 ARG BASE_IMAGE=mcr.microsoft.com/deployment-environments/runners/core
-ARG IMAGE_VERSION=latest
+ARG BASE_IMAGE_TAG=4.3.0-preview
 
-FROM ${BASE_IMAGE}:${IMAGE_VERSION}
+FROM ${BASE_IMAGE}:${BASE_IMAGE_TAG}
 WORKDIR /
 
-ARG IMAGE_VERSION
+ARG BASE_IMAGE_TAG
 
 # Metadata as defined at http://label-schema.org
 ARG BUILD_DATE
 
-# install python (required by newer core images)
-RUN apk add python3 || \
-    (echo "Failed to install python3 with apk, trying with tdnf" && \
-    tdnf install -y python3)
-
-# install pulumi
-RUN apk add curl || \
-    (echo "Failed to install curl with apk, trying with tdnf" && \
-    tdnf install -y tar gzip && \
-    tdnf install -y curl)
+# install pulumi (base image already contains python3, curl, tar, gzip)
 RUN curl -fsSL https://get.pulumi.com | sh
 ENV PATH="${PATH}:/root/.pulumi/bin"
 RUN pulumi plugin install resource azure-native
